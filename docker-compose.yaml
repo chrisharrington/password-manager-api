@@ -1,0 +1,18 @@
+version: '3'
+services:
+  api:
+    container_name: password-manager-api
+    build: .
+    image: chrisharrington/password-manager-api
+    ports:
+        - '8010:8010'
+    command: yarn run:dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+  data:
+    container_name: password-manager-data-store
+    image: 'mongo'
+    ports:
+      - '27017:27017'
+    

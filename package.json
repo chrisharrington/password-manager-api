@@ -1,0 +1,37 @@
+{
+  "name": "password-manager-server",
+  "version": "1.0.0",
+  "description": "A server application used to manage passwords.",
+  "main": "index.js",
+  "scripts": {
+    "setup": "yarn global add typescript nodemon",
+    "run:dev": "nodemon -L"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisharrington/password-manager-server.git"
+  },
+  "author": "Chris Harrington",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chrisharrington/password-manager-server/issues"
+  },
+  "homepage": "https://github.com/chrisharrington/password-manager-server#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "module-alias": "^2.1.0",
+    "moment": "^2.22.2",
+    "mongodb": "^3.1.8",
+    "nodemon": "^1.18.5",
+    "ts-node": "^7.0.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/mongodb": "^3.1.13"
+  },
+  "_moduleAliases": {
+    "@src": "./dist"
+  }
+}
