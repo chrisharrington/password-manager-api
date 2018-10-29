@@ -6,6 +6,7 @@ services:
     image: chrisharrington/password-manager-api
     ports:
         - '8010:8010'
+        - '8011:8011'
     command: yarn run:dev
     volumes:
       - .:/app

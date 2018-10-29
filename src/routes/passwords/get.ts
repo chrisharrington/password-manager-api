@@ -1,19 +1,15 @@
 import { Application, Request, Response } from 'express';
 
-import Password from '@src/models/password';
-
-const data = require('../../../fixtures/passwords.json');
+import PasswordService from '@src/data/password';
 
 export default (app: Application, endpoint: string) => {
-    app.get(endpoint, (request: Request, response: Response) => {
-        let passwords = data.map((d, i) => {
-            let password = new Password();
-            password.id = i;
-            password.domain = d.domain;
-            password.username = d.username;
-            password.password = d.password;
-            return password;
-        })
-        response.status(200).send(passwords);
+    app.get(endpoint, async (request: Request, response: Response) => {
+        try {
+            const key = 'this is a very secure key';
+            let passwords = await PasswordService.get(key, request.query.search, parseInt(request.query.page), parseInt(request.query.count));
+            response.status(200).send(passwords);
+        } catch (e) {
+            response.status(500).send(e.toString());
+        }
     });
 }

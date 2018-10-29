@@ -34,7 +34,6 @@ const key = 'this is a very secure key';
 // passwords.forEach(async (password, i) => {
 //     try {
 //         let p = new Password();
-//         p.id = i+1;
 //         p.domain = password.domain;
 //         p.username = password.username;
 //         p.password = password.password;
@@ -44,15 +43,3 @@ const key = 'this is a very secure key';
 //         Logger.error(`Error while adding.`, e);
 //     }
 // });
-
-var crypto = require('crypto');
-
-const blah = 'f56bec7fabb2ef5f';
-console.log(decrypt(blah));
-
-function decrypt(text){
-    var decipher = crypto.createDecipher('aes-256-ctr', key)
-    var dec = decipher.update(text,'hex','utf8')
-    dec += decipher.final('utf8');
-    return dec;
-  }
