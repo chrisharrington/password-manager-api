@@ -54,6 +54,13 @@ class PasswordService extends BaseService {
         await collection.insertOne(password);
     }
 
+    async delete(password: Password) {
+        let collection = await this.open();
+        await collection.remove({
+            _id: password._id
+        });
+    }
+
     private hash(key: string) {
         return crypto.createHash('md5').update(key).digest('hex');
     }

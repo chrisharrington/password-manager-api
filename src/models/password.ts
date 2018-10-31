@@ -1,5 +1,5 @@
 export default class Password {
-    id: number;
+    _id: number;
     domain: string;
     username: string;
     password: string;

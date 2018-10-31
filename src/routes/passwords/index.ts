@@ -1,9 +1,11 @@
 import { Application } from 'express';
 
 import Get from './get';
+import Delete from './delete';
 
 export default (app: Application) => {
     [
-        Get
+        Get,
+        Delete
     ].forEach(route => route(app, '/passwords'));
 };

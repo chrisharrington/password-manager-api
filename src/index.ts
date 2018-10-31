@@ -30,7 +30,7 @@ app.listen(Config.port, () => Logger.info(`Listening on port ${Config.port}...`)
 
 const key = 'this is a very secure key';
 
-//const passwords = require('../fixtures/passwords.json');
+// const passwords = require('../fixtures/passwords.json');
 // passwords.forEach(async (password, i) => {
 //     try {
 //         let p = new Password();
