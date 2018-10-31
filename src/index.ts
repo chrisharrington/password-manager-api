@@ -13,7 +13,6 @@ import Logger from './logger';
 import Connection from './data/connection';
 import PasswordService from '@src/data/password';
 import Password from '@src/models/password';
-const passwords = require('../fixtures/passwords.json');
 
 const app = express();
 
@@ -31,6 +30,7 @@ app.listen(Config.port, () => Logger.info(`Listening on port ${Config.port}...`)
 
 const key = 'this is a very secure key';
 
+//const passwords = require('../fixtures/passwords.json');
 // passwords.forEach(async (password, i) => {
 //     try {
 //         let p = new Password();

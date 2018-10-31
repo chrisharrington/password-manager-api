@@ -7,7 +7,7 @@ services:
     ports:
         - '8010:8010'
         - '8011:8011'
-    command: yarn run:dev
+    command: nodemon -L
     volumes:
       - .:/app
       - /app/node_modules
