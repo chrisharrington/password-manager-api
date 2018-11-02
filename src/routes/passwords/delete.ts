@@ -7,6 +7,7 @@ export default (app: Application, endpoint: string) => {
     app.delete(endpoint, async (request: Request, response: Response) => {
         try {
             await PasswordService.delete(request.body as Password);
+            response.sendStatus(200);
         } catch (e) {
             response.status(500).send(e.toString());
         }

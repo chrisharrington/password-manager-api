@@ -1,4 +1,5 @@
 import * as crypto from 'crypto';
+import { ObjectId } from 'mongodb';
 
 import BaseService from '@src/data/base';
 
@@ -56,8 +57,8 @@ class PasswordService extends BaseService {
 
     async delete(password: Password) {
         let collection = await this.collection();
-        await collection.remove({
-            _id: password._id
+        await collection.deleteOne({
+            _id: new ObjectId(password._id)
         });
     }
 
