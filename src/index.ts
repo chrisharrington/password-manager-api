@@ -37,7 +37,7 @@ const key = 'this is a very secure key';
 //         p.domain = password.domain;
 //         p.username = password.username;
 //         p.password = password.password;
-//         await PasswordService.add(p, key);
+//         await PasswordService.upsert(p, key);
 //         Logger.info(`Added password: ${JSON.stringify(p)}`);
 //     } catch (e) {
 //         Logger.error(`Error while adding.`, e);

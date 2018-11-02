@@ -12,7 +12,7 @@ class PasswordService extends BaseService {
     }
 
     async get(key: string, search: string, start: number, count: number) {
-        let collection = await this.open();
+        let collection = await this.collection();
 
         let query = {};
         if (search) {
@@ -43,19 +43,19 @@ class PasswordService extends BaseService {
         return passwords;
     }
 
-    async add(password: Password, key: string) {
-        let iv = crypto.randomBytes(16);
-        let cipher = crypto.createCipheriv(ALGORITHM, new Buffer(this.hash(key)), iv);
-        let encrypted = cipher.update(password.password);
-        encrypted = Buffer.concat([encrypted, cipher.final()]);
-        password.password = iv.toString('hex') + ':' + encrypted.toString('hex');
+    async upsert(password: Password, key: string) {
+        password.password = this.encryptPassword(password.password, key);
 
-        let collection = await this.open();
-        await collection.insertOne(password);
+        let collection = await this.collection();
+        await collection.replaceOne({
+            _id: password._id
+        }, password, {
+            upsert: true
+        });
     }
 
     async delete(password: Password) {
-        let collection = await this.open();
+        let collection = await this.collection();
         await collection.remove({
             _id: password._id
         });
@@ -63,6 +63,14 @@ class PasswordService extends BaseService {
 
     private hash(key: string) {
         return crypto.createHash('md5').update(key).digest('hex');
+    }
+
+    private encryptPassword(password: string, key: string) {
+        let iv = crypto.randomBytes(16);
+        let cipher = crypto.createCipheriv(ALGORITHM, new Buffer(this.hash(key)), iv);
+        let encrypted = cipher.update(password);
+        encrypted = Buffer.concat([encrypted, cipher.final()]);
+        return iv.toString('hex') + ':' + encrypted.toString('hex');
     }
 }
 

@@ -7,7 +7,8 @@ export default (app: Application, endpoint: string) => {
     app.post(endpoint, async (request: Request, response: Response) => {
         try {
             const key = 'this is a very secure key';
-            await PasswordService.add(request.body as Password, key);
+            await PasswordService.upsert(request.body as Password, key);
+            response.sendStatus(200);
         } catch (e) {
             response.status(500).send(e.toString());
         }

@@ -3,13 +3,13 @@ import { MongoClient, Collection } from 'mongodb';
 import Config from '@src/config';
 
 export default class BaseService {
-    collection: string;
+    collectionName: string;
 
     constructor(collection: string) {
-        this.collection = collection;
+        this.collectionName = collection;
     }
 
-    protected open() : Promise<Collection> {
+    protected collection() : Promise<Collection> {
         return new Promise<Collection>((resolve, reject) => {
             const client = new MongoClient(Config.storeUrl);
 
@@ -17,7 +17,7 @@ export default class BaseService {
                 if (err) return reject(err);
 
                 const db = client.db(Config.storeDatabase);
-                resolve(db.collection(this.collection));
+                resolve(db.collection(this.collectionName));
             });
         });
     }
