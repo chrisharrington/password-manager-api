@@ -11,8 +11,6 @@ import Routes from './routes';
 import Logger from './logger';
 
 import Connection from './data/connection';
-import PasswordService from '@src/data/password';
-import Password from '@src/models/password';
 
 const app = express();
 
@@ -28,8 +26,10 @@ Connection.init();
 
 app.listen(Config.port, () => Logger.info(`Listening on port ${Config.port}...`));
 
-const key = 'this is a very secure key';
+// import PasswordService from '@src/data/password';
+// import Password from '@src/models/password';
 
+// const key = 'this is a very secure key';
 // const passwords = require('../fixtures/passwords.json');
 // passwords.forEach(async (password, i) => {
 //     try {
@@ -43,3 +43,21 @@ const key = 'this is a very secure key';
 //         Logger.error(`Error while adding.`, e);
 //     }
 // });
+
+// import UserService from '@src/data/user';
+// import User from '@src/models/user';
+// import Crypto from '@src/utilities/crypto';
+
+// (async () => {
+//     try {
+//         const user = new User();
+//         user.key = Crypto.hash('a pretty good password');
+//         user.email = 'chrisharrington99@gmail.com';
+//         user.firstName = 'Chris';
+//         user.lastName = 'Harrington';
+//         await UserService.add(user);
+//         console.log('Added user: ' + JSON.stringify(user));
+//     } catch (e) {
+//         console.error(e);
+//     }
+// })();

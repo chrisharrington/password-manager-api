@@ -5,6 +5,8 @@ import BaseService from '@src/data/base';
 
 import Password from '@src/models/password';
 
+import Crypto from '@src/utilities/crypto';
+
 const ALGORITHM = 'aes-256-ctr';
 
 class PasswordService extends BaseService {
@@ -32,7 +34,7 @@ class PasswordService extends BaseService {
             .limit(count);
 
         let passwords = await cursor.toArray();
-        let hash = this.hash(key);
+        let hash = Crypto.hash(key);
         passwords.forEach(p => {
             let textParts = p.password.split(':');
             let iv = new Buffer(textParts.shift(), 'hex');
@@ -48,11 +50,17 @@ class PasswordService extends BaseService {
         password.password = this.encryptPassword(password.password, key);
 
         let collection = await this.collection();
-        await collection.replaceOne({
-            _id: password._id
-        }, password, {
-            upsert: true
-        });
+        if (password._id) {
+            password._id = new ObjectId(password._id) as any;
+            await collection.replaceOne({
+                _id: new ObjectId(password._id)
+            }, password, {
+                upsert: true
+            });
+        } else {
+            delete password._id;
+            await collection.insertOne(password);
+        }
     }
 
     async delete(password: Password) {
@@ -62,13 +70,9 @@ class PasswordService extends BaseService {
         });
     }
 
-    private hash(key: string) {
-        return crypto.createHash('md5').update(key).digest('hex');
-    }
-
     private encryptPassword(password: string, key: string) {
         let iv = crypto.randomBytes(16);
-        let cipher = crypto.createCipheriv(ALGORITHM, new Buffer(this.hash(key)), iv);
+        let cipher = crypto.createCipheriv(ALGORITHM, new Buffer(Crypto.hash(key)), iv);
         let encrypted = cipher.update(password);
         encrypted = Buffer.concat([encrypted, cipher.final()]);
         return iv.toString('hex') + ':' + encrypted.toString('hex');
@@ -76,13 +80,3 @@ class PasswordService extends BaseService {
 }
 
 export default new PasswordService();
-
-// function encrypt(text) {
-//     let iv = crypto.randomBytes(IV_LENGTH);
-//     let cipher = crypto.createCipheriv('aes-256-cbc', new Buffer(ENCRYPTION_KEY), iv);
-//     let encrypted = cipher.update(text);
-  
-//     encrypted = Buffer.concat([encrypted, cipher.final()]);
-  
-//     return iv.toString('hex') + ':' + encrypted.toString('hex');
-//   }
